@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Boss Battle Live</title>
+  <link rel="stylesheet" href="style-mobile-v2.css">
+</head>
+<body>
+
+  <!-- Top HUD -->
+  <div class="top-hud">
+    <div class="live-badge">
+      <span class="live-dot"></span>
+      <span>LIVE</span>
+    </div>
+    <div class="viewer-count">
+      👥 <span id="viewerCount">247</span>
+    </div>
+  </div>
+
+  <!-- Boss Area -->
+  <div class="boss-area">
+    <div class="boss-name-bar">
+      <div class="boss-name-text" id="bossName">MAGMA SLIME</div>
+    </div>
+    
+    <div class="boss-hp-container">
+      <div class="boss-hp-fill" id="bossHPBar"></div>
+      <div class="boss-hp-text">
+        <span id="bossCurrentHP">10000</span> / <span id="bossMaxHP">10000</span>
+      </div>
+    </div>
+    
+    <div class="boss-sprite-container">
+      <img id="bossSprite" class="boss-sprite" src="" alt="Boss">
+    </div>
+  </div>
+
+  <!-- Ground & Hero -->
+  <div class="ground-section">
+    <div class="hero-container">
+      <img id="heroSprite" class="hero-sprite" src="" alt="Hero">
+    </div>
+    <div class="ground-texture">
+      <img id="groundTexture" src="" alt="Ground">
+    </div>
+  </div>
+
+  <!-- Bottom HUD -->
+  <div class="bottom-hud">
+    <div class="stats-box">
+      <div class="hearts">
+        <span class="heart">❤</span>
+        <span class="heart">❤</span>
+        <span class="heart">❤</span>
+        <span class="heart">❤</span>
+        <span class="heart">❤</span>
+      </div>
+      <div class="power-text">⚔️ ×<span id="heroPower">1.0</span></div>
+    </div>
+
+    <div class="combo-box">
+      <div class="combo-number" id="comboCount">0</div>
+      <div class="combo-label">COMBO</div>
+      <div class="combo-multiplier" id="comboMultiplier">×1.0</div>
+    </div>
+  </div>
+
+  <!-- Attack Button -->
+  <div class="attack-btn-wrapper">
+    <button class="attack-btn" id="attackBtn" ontouchstart="handleAttack(event)" onclick="handleAttack(event)">
+      <div class="attack-icon">⚔️</div>
+      <div class="attack-text">ATTACK</div>
+    </button>
+  </div>
+
+  <!-- Damage Numbers Container -->
+  <div class="damage-numbers" id="damageNumbers"></div>
+
+  <!-- Particles Container -->
+  <div class="particles" id="particleContainer"></div>
+
+  <!-- Chat Overlay -->
+  <div class="chat-overlay" id="chatOverlay"></div>
+
+  <!-- Victory Screen -->
+  <div class="victory-screen" id="victoryScreen" style="display: none;">
+    <div class="victory-content">
+      <h1 class="victory-title">VICTORY!</h1>
+      
+      <div class="victory-stats">
+        <div class="stat-item">
+          <div class="stat-label">TIME</div>
+          <div class="stat-value" id="victoryTime">--:--</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">ATTACKS</div>
+          <div class="stat-value" id="victoryAttacks">0</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">PLAYERS</div>
+          <div class="stat-value" id="victoryPlayers">0</div>
+        </div>
+      </div>
+      
+      <button class="continue-btn" onclick="resetBoss()">
+        NEXT BOSS ➔
+      </button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+  <script src="pixelGenerator.js"></script>
+  <script src="sounds.js"></script>
+  <script src="game-mobile.js"></script>
+
+</body>
+</html>
