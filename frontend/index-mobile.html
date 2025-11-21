@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1080, height=1920, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Boss Battle Live - Mobile</title>
+  <link rel="stylesheet" href="style-mobile.css">
+</head>
+<body>
+  
+  <!-- Live Badge -->
+  <div class="live-badge">
+    <span class="live-dot"></span>
+    <span>LIVE</span>
+  </div>
+
+  <!-- Viewer Count -->
+  <div class="viewer-count">
+    <span>👥</span>
+    <span id="viewerCount">247</span>
+  </div>
+
+  <!-- Biome Indicator -->
+  <div class="biome-indicator">🌍 OVERWORLD</div>
+  
+  <!-- TOP SECTION: Boss HP & Info -->
+  <div class="top-section">
+    <div class="boss-name-card">
+      <div class="boss-icon-mini">👾</div>
+      <div class="boss-name" id="bossName">MAGMA SLIME</div>
+    </div>
+    
+    <div class="boss-hp-bar-mobile">
+      <div class="hp-bar-fill" id="bossHPBar"></div>
+      <div class="hp-bar-ghost" id="bossHPGhost"></div>
+      <div class="hp-text">
+        <span id="bossCurrentHP">10000</span>/<span id="bossMaxHP">10000</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MIDDLE: Boss Character (HUGE) -->
+  <div class="battle-area">
+    <div class="boss-container-mobile">
+      <div class="boss minecraft-slime" id="boss">
+        <img id="bossSprite" src="" alt="Boss" class="pixel-sprite">
+      </div>
+    </div>
+    
+    <!-- Damage Numbers -->
+    <div class="damage-numbers" id="damageNumbers"></div>
+    
+    <!-- Particles -->
+    <div class="particles" id="particleContainer"></div>
+  </div>
+
+  <!-- HERO SECTION (Bottom) -->
+  <div class="hero-section">
+    <div class="hero-container-mobile">
+      <div class="hero" id="hero">
+        <img id="heroSprite" src="" alt="Hero" class="pixel-sprite">
+        <div class="attack-trail" id="attackTrail"></div>
+      </div>
+    </div>
+    
+    <!-- Ground -->
+    <div class="ground-mobile">
+      <img id="groundTexture" src="" alt="Ground" class="pixel-sprite">
+    </div>
+  </div>
+
+  <!-- BOTTOM UI: Stats & Combo -->
+  <div class="bottom-ui">
+    <!-- Left: Hero Stats -->
+    <div class="hero-stats-mobile">
+      <div class="hearts-row">
+        <span class="mc-heart">❤</span>
+        <span class="mc-heart">❤</span>
+        <span class="mc-heart">❤</span>
+        <span class="mc-heart">❤</span>
+        <span class="mc-heart">❤</span>
+      </div>
+      <div class="power-text">⚔️ ×<span id="heroPower">1.0</span></div>
+    </div>
+
+    <!-- Right: Combo -->
+    <div class="combo-mobile">
+      <div class="combo-count-mobile" id="comboCount">0</div>
+      <div class="combo-label-mobile">COMBO</div>
+      <div class="combo-multiplier-mobile" id="comboMultiplier">×1.0</div>
+    </div>
+  </div>
+
+  <!-- FLOATING ATTACK BUTTON (Touch) -->
+  <div class="attack-button-container">
+    <button class="attack-btn-mobile" id="attackBtn" ontouchstart="handleAttack(event)" onclick="handleAttack(event)">
+      <div class="btn-icon">⚔️</div>
+      <div class="btn-text">ATTACK</div>
+    </button>
+  </div>
+
+  <!-- Victory Screen -->
+  <div class="victory-screen-mobile" id="victoryScreen" style="display: none;">
+    <div class="victory-content">
+      <h1 class="victory-text">VICTORY!</h1>
+      <div class="victory-boss-icon" id="victoryBossIcon"></div>
+      
+      <div class="victory-stats-mobile">
+        <div class="stat-box">
+          <div class="stat-label">TIME</div>
+          <div class="stat-value" id="victoryTime">--:--</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">HITS</div>
+          <div class="stat-value" id="victoryAttacks">0</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">WARRIORS</div>
+          <div class="stat-value" id="victoryParticipants">0</div>
+        </div>
+      </div>
+      
+      <button onclick="resetBoss()" class="continue-btn-mobile">
+        NEXT BOSS ➔
+      </button>
+    </div>
+  </div>
+
+  <!-- Chat Log (Minimal, overlay) -->
+  <div class="chat-overlay" id="chatOverlay"></div>
+
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+  <script src="pixelGenerator.js"></script>
+  <script src="sounds.js"></script>
+  <script src="game-mobile.js"></script>
+</body>
+</html>

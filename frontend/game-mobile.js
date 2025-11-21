@@ -364,4 +364,28 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+// Add after other functions, before socket handlers
+
+// Screen shake effect
+function screenShake() {
+  document.body.classList.add('shake');
+  setTimeout(() => {
+    document.body.classList.remove('shake');
+  }, 400);
+}
+
+// Update combo milestone styling
+function updateComboMilestone(combo) {
+  const comboEl = document.querySelector('.combo-mobile');
+  comboEl.classList.remove('milestone-25', 'milestone-50', 'milestone-100');
+  
+  if (combo >= 100) {
+    comboEl.classList.add('milestone-100');
+  } else if (combo >= 50) {
+    comboEl.classList.add('milestone-50');
+  } else if (combo >= 25) {
+    comboEl.classList.add('milestone-25');
+  }
+}
+
 console.log('🎮 Mobile game initialized');
