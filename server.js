@@ -207,3 +207,19 @@ process.on('uncaughtException', (error) => {
 process.on('unhandledRejection', (reason, promise) => {
   console.error('Unhandled Rejection at:', promise, 'reason:', reason);
 });
+// Mining game events
+io.on('connection', (socket) => {
+  
+  socket.on('blockMined', (data) => {
+    console.log(`${data.username} mined ${data.blockType} at depth ${data.depth}`);
+    
+    // Broadcast to all clients
+    io.emit('blockMined', {
+      username: data.username,
+      blockType: data.blockType,
+      points: data.points,
+      depth: data.depth
+    });
+  });
+  
+});
