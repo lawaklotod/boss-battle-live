@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boss Battle Live - Minecraft Edition</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="biome-indicator" id="biomeIndicator">🌍 OVERWORLD</div>
+
+  <div class="boss-hp-container">
+    <div class="boss-info">
+      <span class="boss-name" id="bossName">LOADING...</span>
+      <span class="boss-hp-text">
+        <span id="bossCurrentHP">10000</span> / <span id="bossMaxHP">10000</span>
+      </span>
+    </div>
+    <div class="hp-bar-outer">
+      <div class="hp-bar-inner" id="bossHPBar"></div>
+      <div class="hp-bar-ghost" id="bossHPGhost"></div>
+    </div>
+  </div>
+  
+  <div class="boss-container">
+    <div class="boss minecraft-slime" id="boss">
+      <img id="bossSprite" src="" alt="Boss" class="pixel-sprite">
+    </div>
+  </div>
+  
+  <div class="hero-container">
+    <div class="hero" id="hero">
+      <img id="heroSprite" src="" alt="Hero" class="pixel-sprite">
+      <div class="attack-trail" id="attackTrail"></div>
+    </div>
+  </div>
+  
+  <div class="ground">
+    <img id="groundTexture" src="" alt="Ground" class="pixel-sprite">
+  </div>
+
+  <div class="damage-numbers" id="damageNumbers"></div>
+  
+  <div class="combo-display">
+    <div class="combo-label">COMBO</div>
+    <div class="combo-count" id="comboCount">0</div>
+    <div class="combo-multiplier" id="comboMultiplier">×1.0</div>
+    <div class="combo-bar">
+      <div class="combo-bar-fill" id="comboBarFill"></div>
+    </div>
+  </div>
+  
+  <div class="hero-stats">
+    <div class="stat-label">HERO</div>
+    <div class="stat-row">
+      <span class="mc-heart full">❤</span>
+      <span class="mc-heart full">❤</span>
+      <span class="mc-heart full">❤</span>
+      <span class="mc-heart full">❤</span>
+      <span class="mc-heart full">❤</span>
+    </div>
+    <div class="stat-row">
+      <span>⚔️</span>
+      <span id="heroPower">×1.0</span>
+    </div>
+  </div>
+  
+  <div class="victory-screen" id="victoryScreen" style="display: none;">
+    <div class="victory-banner">
+      <h1 class="victory-text">BOSS DEFEATED!</h1>
+      <div class="victory-boss-icon" id="victoryBossIcon"></div>
+    </div>
+    <div class="victory-stats">
+      <div class="stat-item">
+        <span class="stat-label-victory">TIME</span>
+        <span class="stat-value" id="victoryTime">--:--</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label-victory">ATTACKS</span>
+        <span class="stat-value" id="victoryAttacks">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label-victory">WARRIORS</span>
+        <span class="stat-value" id="victoryParticipants">0</span>
+      </div>
+    </div>
+    <button onclick="resetBoss()" class="pixel-button">CONTINUE</button>
+  </div>
+  
+  <div class="particles" id="particleContainer"></div>
+  
+  <div class="chat-simulator">
+    <div class="chat-header">⚔️ BATTLE COMMANDS</div>
+    <input type="text" id="usernameInput" placeholder="Warrior Name" value="Steve">
+    <div class="button-group">
+      <button onclick="simulateAttack()" class="cmd-button">!attack</button>
+      <button onclick="simulateHeavy()" class="cmd-button heavy">!heavy</button>
+    </div>
+    <div class="chat-log" id="chatLog"></div>
+  </div>
+  
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+  
+  <!-- INLINE SCRIPT UNTUK TESTING -->
+  <script>
+    console.log('=== SCRIPT START ===');
+    
+    // Test apakah script berjalan
+    document.getElementById('bossName').textContent = 'SCRIPT LOADED!';
+    
+    // Tunggu sampai semua ter-load
+    window.addEventListener('load', () => {
+      console.log('Window loaded!');
+      document.getElementById('bossName').textContent = 'CHECKING FILES...';
+      
+      // Cek apakah file external berhasil di-load
+      setTimeout(() => {
+        if (typeof PixelCharacterGenerator === 'undefined') {
+          console.error('❌ pixelGenerator.js NOT LOADED!');
+          document.getElementById('bossName').textContent = 'ERROR: pixelGenerator.js not found';
+          alert('ERROR: pixelGenerator.js tidak ter-load!\n\nPastikan file ada di folder yang sama dengan index.html');
+        } else {
+          console.log('✅ pixelGenerator.js loaded');
+          document.getElementById('bossName').textContent = 'FILES OK, GENERATING...';
+          
+          // Generate characters
+          try {
+            const pixelGen = new PixelCharacterGenerator();
+            
+            const heroImage = pixelGen.generateHero(128);
+            document.getElementById('heroSprite').src = heroImage;
+            console.log('✅ Hero generated');
+            
+            const bossImage = pixelGen.generateSlimeBoss(256);
+            document.getElementById('bossSprite').src = bossImage;
+            console.log('✅ Boss generated');
+            
+            const groundImage = pixelGen.generateGrassPlatform(2000, 80);
+            document.getElementById('groundTexture').src = groundImage;
+            console.log('✅ Ground generated');
+            
+            document.getElementById('bossName').textContent = 'MAGMA SLIME';
+          } catch (e) {
+            console.error('❌ Error generating:', e);
+            document.getElementById('bossName').textContent = 'ERROR: ' + e.message;
+          }
+        }
+      }, 100);
+    });
+  </script>
+  
+  <script src="pixelGenerator.js"></script>
+  <script src="sounds.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
